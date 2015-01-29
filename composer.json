@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "campaignchain/hook-duration": "1.0.0-beta.1",
+        "campaignchain/hook-duration": "dev-1.0.0-beta.1",
         "campaignchain/hook-assignee": "1.0.0-alpha.3"
     },
     "autoload": {
