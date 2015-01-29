@@ -1,0 +1,10 @@
+
+modules:
+    campaignchain-gotowebinar:
+        display_name: 'Add a Webinar'
+        channels: 
+            - campaignchain/channel-citrix/campaignchain-gotowebinar
+        routes:
+            new: campaignchain_activity_gotowebinar_new
+        hooks:
+            campaignchain-assignee: true

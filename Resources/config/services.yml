@@ -1,0 +1,4 @@
+services:
+#    campaign_chain_activity_go_to_webinar.example:
+#        class: CampaignChain\Activity\GoToWebinarBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
