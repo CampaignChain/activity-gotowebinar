@@ -21,6 +21,7 @@ class DefaultController extends Controller
     const TRIGGER_HOOK_IDENTIFIER       = 'campaignchain-duration';
     const METRIC_REGISTRANTS            = 'Registrants';
     const METRIC_ATTENDEES              = 'Attendees';
+    const LINK_MY_WEBINAR   = 'https://global.gotowebinar.com/webinars.tmpl';
 
     public function newAction(Request $request)
     {
@@ -45,24 +46,37 @@ class DefaultController extends Controller
             foreach($upcomingWebinars as $key => $upcomingWebinar){
                 // Check if Webinar has already been added to this Campaign.
                 if(!$locationService->existsInCampaign($upcomingWebinar['webinarKey'], $campaign)){
-
+                    $webinarStartDateUtc = new \DateTime($upcomingWebinar['times'][0]['startTime']);
                     $startDate = $datetimeUtil->formatLocale(
-                        new \DateTime($upcomingWebinar['times'][0]['startTime']),
-                        $upcomingWebinar['timeZone']
+                        $webinarStartDateUtc
                     );
-
+                    $webinarEndDateUtc = new \DateTime($upcomingWebinar['times'][0]['endTime']);
                     $endDate = $datetimeUtil->getLocalizedTime(
-                        new \DateTime($upcomingWebinar['times'][0]['endTime']),
-                        $upcomingWebinar['timeZone']
+                        $webinarEndDateUtc
                     );
 
                     $timezoneDate = new \DateTime($upcomingWebinar['times'][0]['startTime']);
-                    $timezoneDate->setTimezone(new \DateTimeZone($upcomingWebinar['timeZone']));
+                    $timezoneDate->setTimezone(new \DateTimeZone(
+                            $datetimeUtil->getUserTimezone()
+                        )
+                    );
                     $timezone = $timezoneDate->format('T');
 
-                    $webinars[$upcomingWebinar['webinarKey']] =
-                        $upcomingWebinar['subject']
+                    $webinarTeaser = $upcomingWebinar['subject']
                         .' ('.$startDate.' - '.$endDate.' '.$timezone.')';
+
+                    // Check whether Webinar is outside campaign duration.
+                    if(
+                        $webinarStartDateUtc
+                            < $campaign->getStartDate()->setTimezone(new \DateTimeZone('UTC'))
+                        || $webinarEndDateUtc
+                            > $campaign->getEndDate()->setTimezone(new \DateTimeZone('UTC'))
+                    ){
+                        // Webinar is beyond campaign's start or end date.
+                        $webinarsOutside[] = $webinarTeaser;
+                    } else {
+                        $webinars[$upcomingWebinar['webinarKey']] = $webinarTeaser;
+                    }
                 } else {
                     $this->get('session')->getFlashBag()->add(
                         'warning',
@@ -85,6 +99,42 @@ class DefaultController extends Controller
             );
         }
 
+        /*
+         * If no upcoming Webinars within campaign duration, but others
+         * outside of it, then redirect.
+         */
+        if(
+            !isset($webinars)
+            && is_array($webinarsOutside) && count($webinarsOutside)
+        ){
+            $webinarsList = '';
+            foreach($webinarsOutside as $webinarOutside){
+                $webinarsList .= '<li>'.$webinarOutside.'</li>';
+            }
+
+            $this->get('session')->getFlashBag()->add(
+                'warning',
+                'No upcoming Webinars within the duration of the selected campaign.<br/>'
+                .'<p>Campaign "'.$campaign->getName().'"</p>'
+                .'<p>Start: '
+                    .$datetimeUtil->formatLocale($campaign->getStartDate())
+                    .' '.$campaign->getStartDate()->format('T')
+                .'</p>'
+                .'<p>End: '
+                    .$datetimeUtil->formatLocale($campaign->getEndDate())
+                .' '.$campaign->getEndDate()->format('T')
+                .'</p>'
+                .'<p>Upcoming Webinars:</p>'
+                .'<ul>'
+                .$webinarsList
+                .'</ul>'
+            );
+
+            return $this->redirect(
+                $this->generateUrl('campaignchain_core_activities_new')
+            );
+        }
+
         $activityType = $this->get('campaignchain.core.form.type.activity');
         $activityType->setBundleName(self::ACTIVITY_BUNDLE_NAME);
         $activityType->setModuleIdentifier(self::ACTIVITY_MODULE_IDENTIFIER);
@@ -93,6 +143,11 @@ class DefaultController extends Controller
         $operationType = new IncludeWebinarOperationType($this->getDoctrine()->getManager(), $this->get('service_container'));
 
         $location = $locationService->getLocation($location->getId());
+
+        // Have the location point to the list of upcoming Webinars on the
+        // GoToWebinar website.
+        $location->setUrl(self::LINK_MY_WEBINAR);
+
         $operationType->setLocation($location);
 
         $operationType->setWebinars($webinars);
