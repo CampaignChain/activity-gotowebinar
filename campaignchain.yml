@@ -1,10 +1,20 @@
+# This file is part of the CampaignChain package.
+#
+# (c) Sandro Groganz <sandro@campaignchain.com>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
 modules:
     campaignchain-gotowebinar:
-        display_name: 'Add a Webinar'
+        display_name: 'Add an upcoming Webinar'
         channels: 
             - campaignchain/channel-citrix/campaignchain-gotowebinar
         routes:
             new: campaignchain_activity_gotowebinar_new
+            edit: campaignchain_activity_gotowebinar_edit
+            edit_modal: campaignchain_activity_gotowebinar_edit_modal
+            edit_api:
+            read: campaignchain_activity_gotowebinar_read
         hooks:
             campaignchain-assignee: true

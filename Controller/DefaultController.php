@@ -264,4 +264,29 @@ class DefaultController extends Controller
             ));
 
     }
+
+    public function readAction(Request $request, $id){
+        $activityService = $this->get('campaignchain.core.activity');
+        $activity = $activityService->getActivity($id);
+
+        // Get the one operation.
+        $operation = $activityService->getOperation($id);
+
+        // TODO: Check if Webinar dates were edited on GoToWebinar.
+
+        if(!$statusType == 'page' && !$isPublic){
+            $this->get('session')->getFlashBag()->add(
+                'warning',
+                'This post is not public.'
+            );
+        }
+
+        return $this->render(
+            'CampaignChainOperationGoToWebinarBundle::read.html.twig',
+            array(
+                'page_title' => $activity->getName(),
+                'operation' => $operation,
+                'activity' => $activity,
+            ));
+    }
 }
