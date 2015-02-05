@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use CampaignChain\CoreBundle\Entity\Operation;
 use CampaignChain\CoreBundle\Entity\Location;
 use CampaignChain\CoreBundle\Entity\Medium;
-use CampaignChain\CoreBundle\Entity\SchedulerReportOperation;
+use CampaignChain\Operation\GoToWebinarBundle\Entity\Webinar;
 
 class DefaultController extends Controller
 {
@@ -217,6 +217,15 @@ class DefaultController extends Controller
             $location->setOperation($operation);
             $operation->addLocation($location);
 
+            $webinarOperation = new Webinar();
+            $webinarOperation->setOperation($operation);
+            $webinarOperation->setWebinarKey($webinar['webinarKey']);
+            $webinarOperation->setOrganizerKey($webinar['organizerKey']);
+            $webinarOperation->setSubject($webinar['subject']);
+            $webinarOperation->setDescription($webinar['description']);
+            $webinarOperation->setTimeZone($webinar['timeZone']);
+            $webinarOperation->setRegistrationUrl($webinar['registrationUrl']);
+
             $repository = $this->getDoctrine()->getManager();
 
             // Make sure that data stays intact by using transactions.
@@ -225,6 +234,7 @@ class DefaultController extends Controller
 
                 $repository->persist($operation);
                 $repository->persist($activity);
+                $repository->persist($webinarOperation);
 
                 $reportJob = $this->get('campaignchain.job.report.gotowebinar');
                 $reportJob->schedule($operation, array(
@@ -265,6 +275,18 @@ class DefaultController extends Controller
 
     }
 
+    public function editAction(Request $request, $id)
+    {
+        return $this->redirect(
+            $this->generateUrl(
+                'campaignchain_activity_gotowebinar_read',
+                array(
+                    'id' => $id,
+                )
+            )
+        );
+    }
+
     public function readAction(Request $request, $id){
         $activityService = $this->get('campaignchain.core.activity');
         $activity = $activityService->getActivity($id);
@@ -272,14 +294,11 @@ class DefaultController extends Controller
         // Get the one operation.
         $operation = $activityService->getOperation($id);
 
-        // TODO: Check if Webinar dates were edited on GoToWebinar.
+        // Get Webinar info.
+        $webinarService = $this->get('campaignchain.operation.gotowebinar.webinar');
+        $webinar = $webinarService->getWebinarByOperation($operation->getId());
 
-        if(!$statusType == 'page' && !$isPublic){
-            $this->get('session')->getFlashBag()->add(
-                'warning',
-                'This post is not public.'
-            );
-        }
+        // TODO: Check if Webinar dates were edited on GoToWebinar.
 
         return $this->render(
             'CampaignChainOperationGoToWebinarBundle::read.html.twig',
@@ -287,6 +306,8 @@ class DefaultController extends Controller
                 'page_title' => $activity->getName(),
                 'operation' => $operation,
                 'activity' => $activity,
+                'webinar' => $webinar,
+                'show_date' => true,
             ));
     }
 }
