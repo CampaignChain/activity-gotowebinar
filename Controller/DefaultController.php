@@ -310,4 +310,29 @@ class DefaultController extends Controller
                 'show_date' => true,
             ));
     }
+
+    public function editModalAction(Request $request, $id)
+    {
+        $activityService = $this->get('campaignchain.core.activity');
+        $activity = $activityService->getActivity($id);
+
+        // Get the one operation.
+        $operation = $activityService->getOperation($id);
+
+        // Get Webinar info.
+        $webinarService = $this->get('campaignchain.operation.gotowebinar.webinar');
+        $webinar = $webinarService->getWebinarByOperation($operation->getId());
+
+        // TODO: Check if Webinar dates were edited on GoToWebinar.
+
+        return $this->render(
+            'CampaignChainOperationGoToWebinarBundle::read_modal.html.twig',
+            array(
+                'page_title' => $activity->getName(),
+                'operation' => $operation,
+                'activity' => $activity,
+                'webinar' => $webinar,
+                'show_date' => true,
+            ));
+    }
 }
