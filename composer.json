@@ -10,6 +10,9 @@
         }
     ],
     "require": {
+        "campaignchain/core": "dev-1.0.0-beta.1",
+        "campaignchain/location-citrix": "dev-1.0.0-beta.1",
+        "campaignchain/operation-gotowebinar": "dev-1.0.0-beta.1",
         "campaignchain/hook-duration": "dev-1.0.0-beta.1",
         "campaignchain/hook-assignee": "1.0.0-alpha.3"
     },
