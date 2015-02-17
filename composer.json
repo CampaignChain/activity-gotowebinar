@@ -14,7 +14,7 @@
         "campaignchain/location-citrix": "dev-master",
         "campaignchain/operation-gotowebinar": "dev-master",
         "campaignchain/hook-duration": "dev-master",
-        "campaignchain/hook-assignee": "1.0.0-alpha.3"
+        "campaignchain/hook-assignee": "dev-master"
     },
     "autoload": {
         "psr-4": { "CampaignChain\\Activity\\GoToWebinarBundle\\": "" }
