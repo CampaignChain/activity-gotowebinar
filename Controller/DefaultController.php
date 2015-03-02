@@ -45,7 +45,10 @@ class DefaultController extends Controller
 
             foreach($upcomingWebinars as $key => $upcomingWebinar){
                 // Check if Webinar has already been added to this Campaign.
-                if(!$locationService->existsInCampaign($upcomingWebinar['webinarKey'], $campaign)){
+                if(!$locationService->existsInCampaign(
+                    self::LOCATION_BUNDLE_NAME, self::LOCATION_MODULE_IDENTIFIER,
+                    $upcomingWebinar['webinarKey'], $campaign
+                )){
                     $webinarStartDateUtc = new \DateTime($upcomingWebinar['times'][0]['startTime']);
                     $startDate = $datetimeUtil->formatLocale(
                         $webinarStartDateUtc
