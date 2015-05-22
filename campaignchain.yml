@@ -17,4 +17,5 @@ modules:
             edit_api:
             read: campaignchain_activity_gotowebinar_read
         hooks:
-            campaignchain-assignee: true
+            default:
+                campaignchain-assignee: true
