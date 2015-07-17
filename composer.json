@@ -1,6 +1,7 @@
 {
     "name": "campaignchain/activity-gotowebinar",
     "description": "Include a Webinar into a campaign.",
+    "keywords": ["gotowebinar","campaignchain"],
     "type": "campaignchain-activity",
     "license": "Apache-2.0",
     "authors": [
