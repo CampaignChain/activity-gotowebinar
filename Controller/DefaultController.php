@@ -262,12 +262,16 @@ class DefaultController extends Controller
             //return $this->redirect($this->generateUrl('task_success'));
         }
 
+        $campaignService = $this->get('campaignchain.core.campaign');
+        $campaign = $campaignService->getCampaign($campaign);
+
         return $this->render(
             'CampaignChainCoreBundle:Operation:new.html.twig',
             array(
                 'page_title' => 'Add a Webinar',
                 'activity' => $activity,
                 'campaign' => $campaign,
+                'campaign_module' => $campaign->getCampaignModule(),
                 'channel_module' => $wizard->getChannelModule(),
                 'channel_module_bundle' => $wizard->getChannelModuleBundle(),
                 'location' => $wizard->getLocation(),
