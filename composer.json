@@ -16,11 +16,11 @@
         "docs": "http://doc.campaignchain.com"
     },
     "require": {
-        "campaignchain/core": "dev-master",
-        "campaignchain/location-citrix": "dev-master",
-        "campaignchain/operation-gotowebinar": "dev-master",
-        "campaignchain/hook-duration": "dev-master",
-        "campaignchain/hook-assignee": "dev-master"
+        "campaignchain/core": "1.0.0-beta.2",
+        "campaignchain/location-citrix": "1.0.0-beta.2",
+        "campaignchain/operation-gotowebinar": "1.0.0-beta.2",
+        "campaignchain/hook-duration": "1.0.0-beta.2",
+        "campaignchain/hook-assignee": "1.0.0-beta.2"
     },
     "autoload": {
         "psr-4": { "CampaignChain\\Activity\\GoToWebinarBundle\\": "" }
