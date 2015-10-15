@@ -9,25 +9,28 @@ parameters:
     campaignchain.activity.gotowebinar.add:
         bundle_name: "campaignchain/activity-gotowebinar"
         module_identifier: "campaignchain-gotowebinar"
-        location: %campaignchain.location.slideshare.user%
+        location: %campaignchain.location.citrix.user%
         equals_operation: true
         operations:
-            - %campaignchain.operation.slideshare.schedule%
+            - %campaignchain.operation.gotowebinar.add%
         handler: "campaignchain.activity.controller.handler.gotowebinar.add"
 
 services:
-    campaignchain.activity.controller.slideshare.schedule:
+    campaignchain.activity.controller.gotowebinar.add:
         class: CampaignChain\CoreBundle\Controller\Module\ActivityModuleController
         calls:
             - [setContainer, ["@service_container"]]
-            - [setParameters, ["%campaignchain.activity.slideshare.schedule%"]]
-    campaignchain.activity.controller.handler.slideshare.schedule:
-        class: CampaignChain\Activity\SlideShareBundle\Controller\SlideShareHandler
+            - [setParameters, ["%campaignchain.activity.gotowebinar.add%"]]
+    campaignchain.activity.controller.handler.gotowebinar.add:
+        class: CampaignChain\Activity\GoToWebinarBundle\Controller\GoToWebinarAddHandler
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "@campaignchain.operation.slideshare.slideshow"
+            - "@campaignchain.operation.gotowebinar.webinar"
             - "@campaignchain.core.location"
-            - "@campaignchain.channel.slideshare.rest.client"
+            - "@campaignchain.channel.citrix.rest.client"
+            - "@campaignchain.core.util.datetime"
+            - "@campaignchain.core.hook"
+            - "@campaignchain.job.report.gotowebinar"
             - "@session"
             - "@templating"
             - "@router"
