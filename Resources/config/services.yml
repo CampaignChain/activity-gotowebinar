@@ -1,4 +1,36 @@
+# This file is part of the CampaignChain package.
+#
+# (c) CampaignChain Inc. <info@campaignchain.com>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+parameters:
+    campaignchain.activity.gotowebinar.add:
+        bundle_name: "campaignchain/activity-gotowebinar"
+        module_identifier: "campaignchain-gotowebinar"
+        location: %campaignchain.location.citrix.user%
+        equals_operation: true
+        operations:
+            - %campaignchain.operation.gotowebinar.add%
+        handler: "campaignchain.activity.controller.handler.gotowebinar.add"
+
 services:
-#    campaign_chain_activity_go_to_webinar.example:
-#        class: CampaignChain\Activity\GoToWebinarBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    campaignchain.activity.controller.gotowebinar.add:
+        class: CampaignChain\CoreBundle\Controller\Module\ActivityModuleController
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [setParameters, ["%campaignchain.activity.gotowebinar.add%"]]
+    campaignchain.activity.controller.handler.gotowebinar.add:
+        class: CampaignChain\Activity\GoToWebinarBundle\Controller\GoToWebinarAddHandler
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@campaignchain.operation.gotowebinar.webinar"
+            - "@campaignchain.core.location"
+            - "@campaignchain.channel.citrix.rest.client"
+            - "@campaignchain.core.util.datetime"
+            - "@campaignchain.core.hook"
+            - "@campaignchain.job.report.gotowebinar"
+            - "@session"
+            - "@templating"
+            - "@router"
