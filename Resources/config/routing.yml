@@ -7,16 +7,16 @@
 
 campaignchain_activity_gotowebinar_new:
     pattern:  /activity/gotowebinar/new
-    defaults: { _controller: CampaignChainActivityGoToWebinarBundle:Default:new }
+    defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:newAction }
 
 campaignchain_activity_gotowebinar_edit:
     pattern:  /activity/gotowebinar/{id}/edit
-    defaults: { _controller: CampaignChainActivityGoToWebinarBundle:Default:edit }
+    defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:readAction }
 
 campaignchain_activity_gotowebinar_edit_modal:
     pattern:  /modal/activity/gotowebinar/{id}/edit
-    defaults: { _controller: CampaignChainActivityGoToWebinarBundle:Default:editModal }
+    defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:editModalAction }
 
 campaignchain_activity_gotowebinar_read:
     pattern:  /activity/gotowebinar/{id}
-    defaults: { _controller: CampaignChainActivityGoToWebinarBundle:Default:read }
+    defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:readAction }
