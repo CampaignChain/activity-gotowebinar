@@ -76,7 +76,7 @@ class GoToWebinarAddHandler extends AbstractActivityHandler
         $this->router           = $router;
     }
 
-    public function createContent(Location $location, Campaign $campaign)
+    public function createContent(Location $location = null, Campaign $campaign = null)
     {
         // Retrieve upcoming Webinars from Citrix.
         $connection = $this->getRestApiConnectionByLocation($location);
