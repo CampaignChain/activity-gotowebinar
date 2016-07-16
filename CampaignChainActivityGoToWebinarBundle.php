@@ -17,8 +17,13 @@
 
 namespace CampaignChain\Activity\GoToWebinarBundle;
 
+use CampaignChain\Activity\GoToWebinarBundle\DependencyInjection\CampaignChainActivityGoToWebinarExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class CampaignChainActivityGoToWebinarBundle extends Bundle
 {
+    public function getContainerExtension()
+    {
+        return new CampaignChainActivityGoToWebinarExtension();
+    }
 }
