@@ -25,7 +25,7 @@ use CampaignChain\CoreBundle\EntityService\LocationService;
 use CampaignChain\CoreBundle\Util\DateTimeUtil;
 use CampaignChain\Operation\GoToWebinarBundle\EntityService\Webinar as WebinarService;
 use CampaignChain\Operation\GoToWebinarBundle\Job\Report;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\Form\Form;
@@ -59,7 +59,7 @@ class GoToWebinarAddHandler extends AbstractActivityHandler
     private     $restApiConnection;
 
     public function __construct(
-        EntityManager $em,
+        ManagerRegistry $managerRegistry,
         WebinarService $contentService,
         LocationService $locationService,
         CitrixClient $restClient,
@@ -71,7 +71,7 @@ class GoToWebinarAddHandler extends AbstractActivityHandler
         Router $router
     )
     {
-        $this->em = $em;
+        $this->em = $managerRegistry->getManager();
         $this->contentService   = $contentService;
         $this->locationService  = $locationService;
         $this->restClient       = $restClient;

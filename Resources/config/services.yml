@@ -31,7 +31,7 @@ services:
     campaignchain.activity.controller.handler.gotowebinar.add:
         class: CampaignChain\Activity\GoToWebinarBundle\Controller\GoToWebinarAddHandler
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - "@doctrine"
             - "@campaignchain.operation.gotowebinar.webinar"
             - "@campaignchain.core.location"
             - "@campaignchain.channel.citrix.rest.client"
