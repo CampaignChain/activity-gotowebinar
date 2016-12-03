@@ -244,7 +244,7 @@ class GoToWebinarAddHandler extends AbstractActivityHandler
         return $location;
     }
 
-    public function postPersistNewEvent(Operation $operation, Form $form, $content = null)
+    public function postPersistNewEvent(Operation $operation, $content = null)
     {
         $this->reportJob->schedule($operation, array(
             self::METRIC_REGISTRANTS => $this->remoteWebinar['numberOfRegistrants']
