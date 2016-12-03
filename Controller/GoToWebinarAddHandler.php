@@ -251,15 +251,27 @@ class GoToWebinarAddHandler extends AbstractActivityHandler
         ));
     }
 
-    public function readAction(Operation $operation)
+    /**
+     * @param Operation $operation
+     * @param bool $isModal Modal view yes or no?
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function readAction(Operation $operation, $isModal = false)
     {
         // Get Webinar info.
         $webinar = $this->contentService->getWebinarByOperation($operation->getId());
 
         // TODO: Check if Webinar dates were edited on GoToWebinar.
 
+        if(!$isModal){
+            $twigTpl = 'CampaignChainOperationGoToWebinarBundle::read.html.twig';
+        } else {
+            $twigTpl = 'CampaignChainOperationGoToWebinarBundle::read_modal.html.twig';
+        }
+
         return $this->templating->renderResponse(
-            'CampaignChainOperationGoToWebinarBundle::read.html.twig',
+            $twigTpl,
             array(
                 'page_title' => $operation->getActivity()->getName(),
                 'operation' => $operation,

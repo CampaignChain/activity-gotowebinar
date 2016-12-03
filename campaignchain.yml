@@ -23,6 +23,7 @@ modules:
             edit_modal: campaignchain_activity_gotowebinar_edit_modal
             edit_api:
             read: campaignchain_activity_gotowebinar_read
+            read_modal: campaignchain_activity_gotowebinar_read_modal
         hooks:
             default:
                 campaignchain-assignee: true

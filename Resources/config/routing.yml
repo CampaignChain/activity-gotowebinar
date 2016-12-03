@@ -27,3 +27,9 @@ campaignchain_activity_gotowebinar_edit_modal:
 campaignchain_activity_gotowebinar_read:
     pattern:  /activity/gotowebinar/{id}
     defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:readAction }
+
+campaignchain_activity_gotowebinar_read_modal:
+    pattern:  /modal/activity/gotowebinar/{id}
+    defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:readModalAction }
+    options:
+        expose: true
