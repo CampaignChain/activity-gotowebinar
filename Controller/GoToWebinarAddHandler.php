@@ -332,9 +332,7 @@ class GoToWebinarAddHandler extends AbstractActivityHandler
     public function moveActivity(Activity $activity)
     {
         /** @var Webinar $webinar */
-        $webinar = $this->em
-            ->getRepository('CampaignChainOperationGoToWebinarBundle:Webinar')
-            ->findOneByOperation($activity->getOperations()[0]);
+        $webinar = $this->contentService->getContent($activity->getOperations()[0]);
 
         $connection = $this->getRestApiConnectionByActivity($activity);
         $connection->updateWebinarDate(
