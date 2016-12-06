@@ -24,6 +24,8 @@ modules:
             edit_api:
             read: campaignchain_activity_gotowebinar_read
             read_modal: campaignchain_activity_gotowebinar_read_modal
+        services:
+            handler: campaignchain.activity.controller.handler.gotowebinar.add
         hooks:
             default:
                 campaignchain-assignee: true
