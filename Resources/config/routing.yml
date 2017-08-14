@@ -13,23 +13,23 @@
 # limitations under the License.
 
 campaignchain_activity_gotowebinar_new:
-    pattern:  /activity/gotowebinar/new
+    path:  /activity/gotowebinar/new
     defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:newAction }
 
 campaignchain_activity_gotowebinar_edit:
-    pattern:  /activity/gotowebinar/{id}/edit
+    path:  /activity/gotowebinar/{id}/edit
     defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:readAction }
 
 campaignchain_activity_gotowebinar_edit_modal:
-    pattern:  /modal/activity/gotowebinar/{id}/edit
+    path:  /modal/activity/gotowebinar/{id}/edit
     defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:editModalAction }
 
 campaignchain_activity_gotowebinar_read:
-    pattern:  /activity/gotowebinar/{id}
+    path:  /activity/gotowebinar/{id}
     defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:readAction }
 
 campaignchain_activity_gotowebinar_read_modal:
-    pattern:  /modal/activity/gotowebinar/{id}
+    path:  /modal/activity/gotowebinar/{id}
     defaults: { _controller: campaignchain.activity.controller.gotowebinar.add:readModalAction }
     options:
         expose: true
